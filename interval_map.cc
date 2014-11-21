@@ -87,8 +87,14 @@ interval_map :: insert_overwrite_interval(
 void
 interval_map :: insert_interval(
     unsigned int insert_address,
-    unsigned int insert_length)
+    unsigned int insert_length,
+    block_location insert_location)
 {
+  slice new_slice();
+  new_slice.location = insert_location;
+  new_slice.offset =  0;
+  new_slice.length = insert_length;
 
+  slice_map.insert(std::pair<unsigned int, slice>(insert_address, new_slice));
 }
 
