@@ -29,6 +29,7 @@ class slice
     public:
     block_location location;
     unsigned int offset;
+    unsigned int length;
 };
 
 
@@ -51,7 +52,7 @@ class interval_map
 
     public:
         void insert(slice_map_t slice_map,
-            unsigned int address, unsigned int length);
+            unsigned int insert_address, unsigned int insert_length);
 };
 
 #endif //interval_map_h_
