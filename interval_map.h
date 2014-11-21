@@ -55,7 +55,7 @@ class interval_map
     public:
         void insert(unsigned int insert_address, unsigned int insert_length);
     public:
-        std::vector<slice> get
+        std::vector<slice> get_slices
           (unsigned int request_address, unsigned int request_length);
 };
 
