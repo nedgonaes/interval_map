@@ -259,9 +259,9 @@ interval_map :: get_slices (
     unsigned int new_offset =
       (block_address < request_address)? request_address - block_address : 0;
     unsigned int new_length =
-      (block_address + block_length < request_address + request_length)?
+      (block_address + block_length <= request_address + request_length)?
       block_length :
-      (request_address + request_length) - (block_address + block_length);
+      (request_address + request_length) - block_address;
 
     s.offset = new_offset;
     s.length = new_length;
