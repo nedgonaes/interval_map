@@ -166,14 +166,28 @@ interval_map :: get_slices (
     unsigned int request_address, unsigned int request_length)
 {
   std::vector<slice> slice_vector;
-  //half range: as much as you can and eof
   slice_iter_t it = slice_map.lower_bound(request_address);
-  if(slice_map.size() == 0 || it == slice_map.end())
+  //out of range, return empty vector
+  if(slice_map.size() == 0 || request_length == 0)
   {
-    //out of range, return empty vector
     return slice_vector;
   }
-  --it;
+  if( it == slice_map.end())
+  {
+    --it;
+    unsigned int block_address = it->first;
+    slice s = it->second;
+    unsigned int new_offset = request_address - block_address;
+    s.offest = new_offset;
+    s.length = s.length - new_offset;
+    slice_vector.push_back(s);
+
+    return slice_vector;
+  }
+  if(it->first != request_address)
+  {
+    --it;
+  }
   while(it->first < request_address + request_length || it != slice_map.end())
   {
 
