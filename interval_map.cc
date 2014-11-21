@@ -52,7 +52,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
             //case 4
         }
 
-        else if (offset + length == insert_address) 
+        else if (offset + length == insert_address)
         {
             //case 4
         }
@@ -194,5 +194,6 @@ interval_map :: get_slices (
 
     it++;
   }
+  return slice_vector;
 }
 
