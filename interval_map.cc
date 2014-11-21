@@ -1,8 +1,7 @@
 #include "interval_map.h"
-using interval_map;
 
 interval_map :: interval_map()
-    : map()
+    : slice_map()
 {
 
 }
@@ -31,7 +30,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
            empty block */
         if (insert_address > 0)
         {
-            slice empty_slice();
+            slice empty_slice;
             empty_slice.length = insert_address;
             slice_map.insert(std::make_pair(0, empty_slice));
         }
@@ -47,22 +46,35 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
 
         if (offset + length < insert_address)
         {
-            slice empty_slice();
+            slice empty_slice;
             empty_slice.length = insert_address - offset + length;
             slice_map.insert(std::make_pair(offset + length, empty_slice));
             //case 4
         }
 
-        else if()
+        else if (offset + length == insert_address) 
         {
+            //case 4
+        }
+
+        else
+        {
+            //case 2
         }
 
     }
 
-    else if (it->first != insert_address)
+    else
     {
-        --it;
+        if (it->first != insert_address)
+        {
+            --it;
+        }
+
+        unsigned int offset = it->first;
+        unsigned int length = it->second.length;
     }
+
 
 }
 
@@ -82,8 +94,8 @@ interval_map :: insert_contained(
   unsigned int new_block_start = block_start_address + new_length + insert_length;
   unsigned int new_block_length = block_length - new_length - insert_length;
 
-  slice new_slice();
-  new_slice.location = block_location;
+  slice new_slice;
+  new_slice.location = slice_location;
   new_slice.offset = new_length + insert_length;
   new_slice.length = new_block_length;
 
@@ -116,7 +128,7 @@ interval_map :: insert_left(
 
   slice_map.erase(block_start_address);
 
-  slice new_slice();
+  slice new_slice;
   new_slice.location = location;
   new_slice.offset = new_offset;
   new_slice.length = new_length;
@@ -140,7 +152,7 @@ interval_map :: insert_interval(
     unsigned int insert_length,
     block_location insert_location)
 {
-  slice new_slice();
+  slice new_slice;
   new_slice.location = insert_location;
   new_slice.offset =  0;
   new_slice.length = insert_length;
@@ -183,6 +195,4 @@ interval_map :: get_slices (
     it++;
   }
 }
-
-};
 
