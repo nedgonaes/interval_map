@@ -181,12 +181,22 @@ interval_map :: get_slices (
     slice s = it->second;
     unsigned int block_length = s.length;
 
+    //if request is contained within a block
+    if( request_address > block_address &&
+        request_address + request_length < block_address + block_length)
+    {
+      s.offset = request_address - block_address;
+      s.length = request_length;
+      slice_vector.push_back(s);
+      return slice_vector;
+    }
+
     unsigned int new_offset =
       (block_address < request_address)? request_address - block_address : 0;
     unsigned int new_length =
       (block_address + block_length < request_address + request_length)?
-      (request_address + request_length) - (block_address + block_length) :
-      block_length;
+      block_length :
+      (request_address + request_length) - (block_address + block_length);
 
     s.offset = new_offset;
     s.length = new_length;
