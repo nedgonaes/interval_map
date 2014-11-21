@@ -12,7 +12,8 @@ interval_map :: ~interval_map()
 }
 
 void
-interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
+interval_map :: insert(unsigned int insert_address, unsigned int insert_length,
+                       block_location insert_location)
 {
     //case 1: wholely contained within a larger block
     //case 2: overlaps right of another block
@@ -34,7 +35,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
             slice_map.insert(std::make_pair(0, empty_slice));
         }
 
-        //case 4
+        insert_interval(insert_address, insert_length, insert_location);
     }
 
     else if (it == slice_map.end())
@@ -49,19 +50,20 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
             slice empty_slice;
             empty_slice.length = insert_address - block_start + length;
             slice_map.insert(std::make_pair(block_start + length, empty_slice));
-            //case 4
+            insert_interval(insert_address, insert_length, insert_location);
         }
 
         //append precisely to end of file, no adjustments needed.
         else if (block_start + length == insert_address) 
         {
-            //case 4
+            insert_interval(insert_address, insert_length, insert_location);
         }
 
         //need to truncate the slice to left (insert_right)
         else
         {
-            //case 2
+            insert_right(block_start, insert_address);
+            insert_interval(insert_address, insert_length, insert_location);
         }
 
     }
@@ -74,15 +76,14 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
             //then it->first == insert_address
             --it;
 
-            unsigned int offset = it->first;
-            unsigned int length = it->second.length;
+            unsigned int block_start = it->first;
 
-            //case 2
-            
+            insert_right(block_start, insert_address);
+             
             ++it;
 
             while (it != slice_map.end() && 
-                    it->first + it->second.length < insert_addres + insert_length)
+                    it->first + it->second.length < insert_address + insert_length)
             {
                 //case 5;
                 ++it;
@@ -90,12 +91,15 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
 
             if (it == slice_map.end())
             {
-                //case 4
+                insert_interval(insert_address, insert_length, insert_location);
             }
             
             else
             {
-                //case 3
+                block_start = it->first;
+                unsigned int length = it->second.length;
+                insert_left(block_start, length, insert_address, insert_length);
+                insert_interval(insert_address, insert_length, insert_location);
             }
 
         }
@@ -103,7 +107,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
         else
         {
             while (it != slice_map.end() && 
-                    it->first + it->second.length < insert_addres + insert_length)
+                    it->first + it->second.length < insert_address + insert_length)
             {
                 //case 5;
                 ++it;
