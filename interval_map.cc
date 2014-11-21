@@ -24,7 +24,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
 
     slice_iter_t it = slice_map.lower_bound(insert_address);
     unsigned int block_start;
-    
+
     if(slice_map.size() == 0)
     {
         /* If inserting into empty map at > 0 offset, fill the hole with
@@ -35,7 +35,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
             empty_slice.length = insert_address;
             slice_map.insert(std::make_pair(0, empty_slice));
         }
-        
+
         //case 4
     }
 
@@ -56,7 +56,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
         else if()
         {
         }
-            
+
     }
 
     else if (it->first != insert_address)
@@ -111,8 +111,17 @@ interval_map :: insert_left(
 {
   unsigned int new_offset = insert_address + insert_length - block_start_address;
   unsigned int new_length = block_length - new_offset;
-  slice_map[block_start_address].offset = new_offset;
-  slice_map[block_start_address].length = new_length;
+  unsigned int new_block_start = block_start_address + new_offset;
+  block_location location =  slice_map[block_start_address].location;
+
+  slice_map.erase(block_start_address);
+
+  slice new_slice();
+  new_slice.location = location;
+  new_slice.offset = new_offset;
+  new_slice.length = new_length;
+
+  slice_map.insert(std::pair<unsigned int, slice>(new_block_start, new_slice));
 }
 
 //case 5: exactly same size as existing block
@@ -138,4 +147,14 @@ interval_map :: insert_interval(
 
   slice_map.insert(std::pair<unsigned int, slice>(insert_address, new_slice));
 }
+
+//gets the slices associated with the request
+std::vector<slice>
+interval_map :: get_slices (
+    unsigned int request_address, unsigned int request_length)
+{
+
+}
+
+};
 
