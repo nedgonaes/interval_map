@@ -45,6 +45,7 @@ class interval_map
 
     private:
         typedef std::map<unsigned int, slice> slice_map_t;
+        typedef std::map<unsigned int, slice>::iterator slice_iter_t;
         interval_map& operator = (const interval_map&);
 
     private:
