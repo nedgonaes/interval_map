@@ -18,9 +18,38 @@ interval_map::~interval_map()
 void insert(slice_map_t slice_map,
             unsigned int insert_address, unsigned int insert_length);
 
-void insert_within_interval(slice_map_t slice_map,
+void insert_contained(
     unsigned int block_start_address,
     unsigned int block_length,
     unsigned int insert_address,
     unsigned int insert_length);
 
+void insert_end(
+    unsigned int block_start_address,
+    unsigned int block_length, // not needed
+    unsigned int insert_address
+    unsigned int insert_length // not needed
+    );
+
+void insert_front(
+    unsigned int block_start_address,
+    unsigned int block_length,
+    unsigned int insert_address,
+    unsigned int insert_length);
+
+void insert_eof(
+    unsigned int block_start_address,
+    unsigned int block_length,
+    unsigned int insert_address,
+    unsigned int insert_length);
+
+void insert_overwrite_interval(
+    unsigned int block_start_address,
+    unsigned int block_length,
+    unsigned int insert_address,
+    unsigned int insert_length);
+
+void insert_interval(
+    unsigned int insert_address,
+    unsigned int insert_length
+    );
