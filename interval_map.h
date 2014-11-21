@@ -8,7 +8,7 @@ class interval_map
 
     public:
         interval_map();
-        ~interval_map(); 
+        ~interval_map();
 
     private:
         interval_map(const interval_map&);
@@ -19,5 +19,9 @@ class interval_map
 
     private:
         slice_map_t map;
+
+    public:
+        void insert(slice_map_t slice_map,
+            unsigned int address, unsigned int length);
 };
 #endif //interval_map_h_
