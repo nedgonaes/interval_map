@@ -154,9 +154,9 @@ int case235()
   get slice 0-20 : should get 3 slices
   */
   imap.insert(0, 10, location1);
-  imap.insert(10, 20, location2);
-  imap.insert(20, 30, location3);
-  imap.insert(5, 25, location4);
+  imap.insert(10, 10, location2);
+  imap.insert(20, 10, location3);
+  imap.insert(5, 20, location4);
   std::vector<slice> slices = imap.get_slices(0, 30);
   std::cout << "size : " << slices.size()<<'\n';
 
@@ -176,7 +176,7 @@ int case5()
     imap.insert(0, 10, location1);
     imap.insert(10,20, location2);
     imap.insert(20,30, location3);
-    //imap.insert(10,20, location4);
+    imap.insert(10,20, location4);
 
     std::vector<slice> slices = imap.get_slices(0,30);
 
@@ -201,7 +201,7 @@ int main()
   location3.bid = 1300;
   location4.sid = 1400;
   location4.bid = 1400;
-  
-  case5();
+
+  case235();
 }
 
