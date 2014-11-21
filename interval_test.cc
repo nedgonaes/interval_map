@@ -121,14 +121,14 @@ int case2()
 
   /*
   imap.insert slice 0-10
-  imap.insert slice 3-7
-  imap.insert slice 5-6
-  get slice 0-10 : should get 5 slices
+  imap.insert slice 10-20
+  imap.insert slice 5-15
+  get slice 0-20 : should get 5 slices
   */
   imap.insert(0, 10, location1);
-  imap.insert(3, 4, location2);
-  imap.insert(5, 1, location3);
-  std::vector<slice> slices = imap.get_slices(0, 10);
+  imap.insert(10, 20, location2);
+  imap.insert(5, 10, location3);
+  std::vector<slice> slices = imap.get_slices(0, 20);
   std::cout << "size : " << slices.size()<<'\n';
 
   std::vector<slice>::iterator it;
@@ -137,6 +137,36 @@ int case2()
   {
     slice s = slices[i];
     std::cout << "location : " << s.location.sid ;
+    std::cout << " / length : " << s.length;
+    std::cout << " / offset : " << s.offset << '\n' ;
+  }
+}
+
+int case235()
+{
+
+  /*
+  imap.insert slice 0-10
+  imap.insert slice 10-20
+  imap.insert slice 20-30
+  imap.insert slice 5-25
+  get slice 0-20 : should get 3 slices
+  */
+  imap.insert(0, 10, location1);
+  imap.insert(10, 20, location2);
+  imap.insert(20, 30, location3);
+  imap.insert(5, 25, location4);
+  std::vector<slice> slices = imap.get_slices(0, 30);
+  std::cout << "size : " << slices.size()<<'\n';
+
+  std::vector<slice>::iterator it;
+
+  for (int i = 0; i < slices.size(); ++i)
+  {
+    slice s = slices[i];
+    std::cout << "location : " << s.location.sid ;
+    std::cout << " / length : " << s.length;
+    std::cout << " / offset : " << s.offset << '\n' ;
   }
 }
 
