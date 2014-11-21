@@ -7,20 +7,26 @@ block_location location2;
 block_location location3;
 block_location location4;
 
+void print_slices(std::vector<slice>& slices)
+{
+    std::cout << "size : " << slices.size() << std::endl;
+
+    for (int i = 0; i < slices.size(); ++i)
+    {
+        slice s = slices[i];
+        std::cout << " location : " << s.location.sid ;
+        std::cout << " / length : " << s.length;
+        std::cout << " / offset : " << s.offset << std::endl ;
+    }
+}
+
+
+
 int case0()
 {
   imap.insert(0, 10, location1);
   std::vector<slice> slices = imap.get_slices(0,10);
-
-  std::cout << "size : " << slices.size();
-
-  for (int i = 0; i < slices.size(); ++i)
-  {
-    slice s = slices[i];
-    std::cout << " location : " << s.location.sid ;
-    std::cout << " / length : " << s.length;
-    std::cout << " / offset : " << s.offset << std::endl ;
-  }
+  print_slices(slices);
 }
 
 int case1()
@@ -35,15 +41,7 @@ int case1()
   imap.insert(3, 4, location2);
   imap.insert(5, 1, location3);
   std::vector<slice> slices = imap.get_slices(0, 10);
-  std::cout << "size : " << slices.size()<<'\n';
-
-  for (int i = 0; i < slices.size(); ++i)
-  {
-    slice s = slices[i];
-    std::cout << "location : " << s.location.sid ;
-    std::cout << " / length : " << s.length;
-    std::cout << " / offset : " << s.offset << '\n' ;
-  }
+  print_slices(slices);
 }
 
 int case11()
@@ -58,15 +56,7 @@ int case11()
   imap.insert(0, 6, location2);
   imap.insert(0, 3, location3);
   std::vector<slice> slices = imap.get_slices(0, 10);
-  std::cout << "size : " << slices.size()<<'\n';
-
-  for (int i = 0; i < slices.size(); ++i)
-  {
-    slice s = slices[i];
-    std::cout << "location : " << s.location.sid ;
-    std::cout << " / length : " << s.length;
-    std::cout << " / offset : " << s.offset << '\n' ;
-  }
+  print_slices(slices);
 }
 
 int case111()
@@ -81,15 +71,7 @@ int case111()
   imap.insert(4, 6, location2);
   imap.insert(7, 3, location3);
   std::vector<slice> slices = imap.get_slices(0, 10);
-  std::cout << "size : " << slices.size()<<'\n';
-
-  for (int i = 0; i < slices.size(); ++i)
-  {
-    slice s = slices[i];
-    std::cout << "location : " << s.location.sid ;
-    std::cout << " / length : " << s.length;
-    std::cout << " / offset : " << s.offset << '\n' ;
-  }
+  print_slices(slices);
 }
 
 int case1111()
@@ -104,17 +86,7 @@ int case1111()
   imap.insert(4, 6, location2);
   imap.insert(4, 2, location3);
   std::vector<slice> slices = imap.get_slices(0, 10);
-  std::cout << "size : " << slices.size()<<'\n';
-
-  std::vector<slice>::iterator it;
-
-  for (int i = 0; i < slices.size(); ++i)
-  {
-    slice s = slices[i];
-    std::cout << "location : " << s.location.sid ;
-    std::cout << " / length : " << s.length;
-    std::cout << " / offset : " << s.offset << '\n' ;
-  }
+  print_slices(slices);
 }
 
 int case2()
@@ -130,17 +102,8 @@ int case2()
   imap.insert(10, 20, location2);
   imap.insert(5, 10, location3);
   std::vector<slice> slices = imap.get_slices(0, 20);
-  std::cout << "size : " << slices.size()<<'\n';
+  print_slices(slices);
 
-  std::vector<slice>::iterator it;
-
-  for (int i = 0; i < slices.size(); ++i)
-  {
-    slice s = slices[i];
-    std::cout << "location : " << s.location.sid ;
-    std::cout << " / length : " << s.length;
-    std::cout << " / offset : " << s.offset << '\n' ;
-  }
 }
 
 int case235()
@@ -158,37 +121,19 @@ int case235()
   imap.insert(20, 10, location3);
   imap.insert(5, 20, location4);
   std::vector<slice> slices = imap.get_slices(0, 30);
-  std::cout << "size : " << slices.size()<<'\n';
+  print_slices(slices);
 
-  std::vector<slice>::iterator it;
-
-  for (int i = 0; i < slices.size(); ++i)
-  {
-    slice s = slices[i];
-    std::cout << "location : " << s.location.sid ;
-    std::cout << " / length : " << s.length;
-    std::cout << " / offset : " << s.offset << '\n' ;
-  }
 }
 
 int case5()
 {
     imap.insert(0, 10, location1);
-    imap.insert(10,20, location2);
-    imap.insert(20,30, location3);
-    imap.insert(10,20, location4);
+    imap.insert(10,10, location2);
+    imap.insert(20,10, location3);
+    imap.insert(10,10, location4);
 
     std::vector<slice> slices = imap.get_slices(0,30);
-
-    std::cout << "size : " << slices.size() << std::endl;
-
-    for (int i = 0; i < slices.size(); ++i)
-    {
-        slice s = slices[i];
-        std::cout << " location : " << s.location.sid ;
-        std::cout << " / length : " << s.length;
-        std::cout << " / offset : " << s.offset << std::endl ;
-    }
+    print_slices(slices);
 }
 
 int main()
