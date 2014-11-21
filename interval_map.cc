@@ -44,13 +44,13 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length,
         }
 
         //new slice is entirely contained within last block of file
-        else if (block_start + length > insert_address + insert_length) 
+        else if (block_start + length > insert_address + insert_length)
         {
             insert_contained(block_start, length, insert_address, insert_length);
         }
 
         //new slice overlaps right portion of last block of file.
-        else if (block_start + length != insert_address) 
+        else if (block_start + length != insert_address)
         {
             insert_right(block_start, insert_address);
         }
@@ -70,8 +70,8 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length,
             unsigned int block_start = it->first;
             unsigned int length = it->second.length;
 
-            //new slice is entirely contained within an existing block 
-            if (block_start + length > insert_address + insert_length) 
+            //new slice is entirely contained within an existing block
+            if (block_start + length > insert_address + insert_length)
             {
                 insert_contained(block_start, length, insert_address, insert_length);
             }
@@ -84,7 +84,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length,
 
                 ++it;
 
-                while (it != slice_map.end() && 
+                while (it != slice_map.end() &&
                         it->first + it->second.length < insert_address + insert_length)
                 {
                     block_start = it->first;
@@ -106,7 +106,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length,
         //an existing block).
         else
         {
-            while (it != slice_map.end() && 
+            while (it != slice_map.end() &&
                     it->first + it->second.length < insert_address + insert_length)
             {
                 unsigned int block_start = it->first;
@@ -237,8 +237,10 @@ interval_map :: get_slices (
   {
     --it;
   }
-  while(it->first < request_address + request_length || it != slice_map.end())
+  while(it->first < request_address + request_length)
   {
+    if(it == slice_map.end())
+      return slice_vector;
 
     unsigned int block_address = it->first;
     slice s = it->second;

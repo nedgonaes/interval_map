@@ -11,16 +11,17 @@ int case0()
 
   imap.insert(0, 10, location1);
   std::vector<slice> slices = imap.get_slices(0,10);
-  
+
+  std::cout << "size : " << slices.size() << '\n';
   std::vector<slice>::iterator it;
 
   for(it = slices.begin();
       it != slices.end(); ++it);
   {
     slice s = *it;
-    std::cout << "location : " << s.location.sid ;
-    std::cout << "length : " << s.length;
-    std::cout << "offset" << s.offset << '\n' ;
+    std::cout << " location : " << s.location.sid ;
+    std::cout << " length : " << s.length;
+    std::cout << " offset" << s.offset ;
   }
 
 }
