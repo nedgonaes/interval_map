@@ -6,20 +6,6 @@ block_location location1;
 block_location location2;
 block_location location3;
 
-
-  block_location location1;
-  location1.sid = 1100;
-  location1.bid = 1100;
-
-  block_location location2;
-  location2.sid = 1200;
-  location2.bid = 1200;
-
-  block_location location3;
-  location3.sid = 1300;
-  location3.bid = 1300;
-
-
 int case0()
 {
   imap.insert(0, 10, location1);
@@ -151,7 +137,9 @@ int case2()
   {
     slice s = slices[i];
     std::cout << "location : " << s.location.sid ;
+  }
 }
+
 int main()
 {
   location1.sid = 1100;
@@ -161,7 +149,6 @@ int main()
   location3.sid = 1300;
   location3.bid = 1300;
 
-
-    case1111();
+  case2();
 }
 
