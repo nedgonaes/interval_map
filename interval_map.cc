@@ -52,43 +52,43 @@ interval_map :: insert_contained(
 
 //case 2: overlaps right of another block
 void
-interval_map :: insert_end(
+interval_map :: insert_right(
     unsigned int block_start_address,
-    unsigned int block_length, // not needed
-    unsigned int insert_address
-    unsigned int insert_length) // not needed
+    unsigned int insert_address)
 {
-  unsigned int
-  slice_map[block_start_address].length =
+  unsigned int new_length = insert_address - block_start_address;
+  slice_map[block_start_address].length = new_length;
 };
 
 //case 3: overlaps left of another block
 void
-interval_map :: insert_front(
+interval_map :: insert_left(
     unsigned int block_start_address,
     unsigned int block_length,
     unsigned int insert_address,
-    unsigned int insert_length);
-
-//case 4: new block at end, no overlap
-void
-interval_map :: insert_eof(
-    unsigned int block_start_address,
-    unsigned int block_length,
-    unsigned int insert_address,
-    unsigned int insert_length);
+    unsigned int insert_length)
+{
+  unsigned int new_offset = insert_address + insert_length - block_start_address;
+  unsigned int new_length = block_length - new_offset;
+  slice_map[block_start_address].offset = new_offset;
+  slice_map[block_start_address].length = new_length;
+}
 
 //case 5: exactly same size as existing block
 void
 interval_map :: insert_overwrite_interval(
-    unsigned int block_start_address,
-    unsigned int block_length,
-    unsigned int insert_address,
-    unsigned int insert_length);
+    unsigned int block_start_address)
+{
+  //delete mapping of block_start_address
+  slice_map.erase(block_start_address);
+}
 
 //insert the new interval into slice map
 void
 interval_map :: insert_interval(
     unsigned int insert_address,
-    unsigned int insert_length
-    );
+    unsigned int insert_length)
+{
+
+}
+
