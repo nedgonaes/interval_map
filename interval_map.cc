@@ -226,7 +226,9 @@ interval_map :: get_slices (
     --it;
     unsigned int block_address = it->first;
     slice s = it->second;
-    unsigned int new_offset = request_address - block_address;
+    unsigned int block_offset = s.offset;
+
+    unsigned int new_offset = request_address - (block_address+ block_offset);
     s.offset = new_offset;
     s.length = s.length - new_offset;
     slice_vector.push_back(s);
@@ -249,7 +251,7 @@ interval_map :: get_slices (
     if( request_address >= block_address &&
         request_address + request_length <= block_address + block_length)
     {
-      s.offset = request_address - block_address;
+      s.offset = request_address - (block_address + block_offset);
       s.length = request_length;
       slice_vector.push_back(s);
       return slice_vector;
