@@ -12,11 +12,7 @@ interval_map::~interval_map()
 
 }
 
-
-
-
-void insert(slice_map_t slice_map,
-            unsigned int insert_address, unsigned int insert_length);
+void insert(unsigned int insert_address, unsigned int insert_length);
 
 void insert_contained(
     unsigned int block_start_address,
