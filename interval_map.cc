@@ -237,11 +237,9 @@ interval_map :: get_slices (
   {
     --it;
   }
-  while(it->first < request_address + request_length)
+  while(it != slice_map.end() &&
+      it->first < request_address + request_length)
   {
-    if(it == slice_map.end())
-      return slice_vector;
-
     unsigned int block_address = it->first;
     slice s = it->second;
     unsigned int block_length = s.length;
