@@ -177,6 +177,6 @@ int case1111()
 
 int main()
 {
-    case1();
+    case11();
 }
 

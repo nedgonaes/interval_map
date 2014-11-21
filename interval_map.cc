@@ -243,6 +243,7 @@ interval_map :: get_slices (
     unsigned int block_address = it->first;
     slice s = it->second;
     unsigned int block_length = s.length;
+    unsigned int block_offset = s.offset;
 
     //if request is contained within a block
     if( request_address >= block_address &&
@@ -255,7 +256,7 @@ interval_map :: get_slices (
     }
 
     unsigned int new_offset =
-      (block_address < request_address)? request_address - block_address : 0;
+      (block_address < request_address)? request_address - block_address : block_offset;
     unsigned int new_length =
       (block_address + block_length <= request_address + request_length)?
       block_length :
