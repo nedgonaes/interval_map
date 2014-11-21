@@ -35,11 +35,11 @@ interval_map :: insert_contained(
 {
   block_location slice_location = slice_map[block_start_address].location;
 
-  int new_length = insert_address - block_start_address;
+  unsigned int new_length = insert_address - block_start_address;
   slice_map[block_start_address].length = new_length;
 
-  int new_block_start = block_start_address + new_length + insert_length;
-  int new_block_length = block_length - new_length - insert_length;
+  unsigned int new_block_start = block_start_address + new_length + insert_length;
+  unsigned int new_block_length = block_length - new_length - insert_length;
 
   slice new_slice();
   new_slice.location = block_location;
@@ -56,10 +56,10 @@ interval_map :: insert_end(
     unsigned int block_start_address,
     unsigned int block_length, // not needed
     unsigned int insert_address
-    unsigned int insert_length // not needed
-    )
+    unsigned int insert_length) // not needed
 {
-
+  unsigned int
+  slice_map[block_start_address].length =
 };
 
 //case 3: overlaps left of another block
