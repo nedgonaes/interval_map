@@ -230,7 +230,7 @@ interval_map :: get_slices (
 
     unsigned int new_offset = request_address - block_address + block_offset;
     s.offset = new_offset;
-    s.length = s.length - new_offset;
+    s.length = request_length;
     slice_vector.push_back(s);
 
     return slice_vector;

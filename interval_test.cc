@@ -25,6 +25,15 @@
         } \
     } while(0)
 
+#define CHECK_SIZE(SIZE) \
+    do { \
+    if(slices.size() != SIZE) \
+    { \
+        TEST_FAIL(); \
+        return -1; \
+    } \
+    } while(0)
+
 
 interval_map imap;
 block_location location1;
@@ -128,7 +137,10 @@ int case1111()
     imap.insert(4, 6, location2);
     imap.insert(4, 2, location3);
     std::vector<slice> slices = imap.get_slices(0, 10);
-    print_slices(slices);
+    CHECK(0,4,0,location1);
+    CHECK(1,2,0,location3);
+    CHECK(2,4,2,location2);
+    TEST_SUCCESS();
 }
 
 int case11111()
@@ -139,7 +151,11 @@ int case11111()
     imap.insert(20,10,location3);
     imap.insert(0,5,location4);
     std::vector<slice> slices = imap.get_slices(0,30);
-    print_slices(slices);
+    CHECK(0,5,0,location4);
+    CHECK(1,5,5,location1);
+    CHECK(2,10,0,location2);
+    CHECK(3,10,0,location3);
+    TEST_SUCCESS();
 }
 
 int case111111()
@@ -150,7 +166,11 @@ int case111111()
     imap.insert(20,10,location3);
     imap.insert(25,15,location4);
     std::vector<slice> slices = imap.get_slices(0,40);
-    print_slices(slices);
+    CHECK(0,10,0,location1);
+    CHECK(1,10,0,location2);
+    CHECK(2,5,0,location3);
+    CHECK(3,15,0,location4);
+    TEST_SUCCESS();
 }
 
 int case2()
@@ -167,7 +187,10 @@ int case2()
     imap.insert(10, 20, location2);
     imap.insert(5, 10, location3);
     std::vector<slice> slices = imap.get_slices(0, 20);
-    print_slices(slices);
+    CHECK(0,5,0,location1);
+    CHECK(1,10,0,location3);
+    CHECK(2,5,5,location2);
+    TEST_SUCCESS();
 
 }
 
@@ -187,7 +210,10 @@ int case235()
     imap.insert(20, 10, location3);
     imap.insert(5, 20, location4);
     std::vector<slice> slices = imap.get_slices(0, 30);
-    print_slices(slices);
+    CHECK(0,5,0,location1);
+    CHECK(1,20,0,location4);
+    CHECK(2,5,5,location3);
+    TEST_SUCCESS();
 
 }
 
@@ -200,7 +226,10 @@ int case5()
     imap.insert(10,10, location4);
 
     std::vector<slice> slices = imap.get_slices(0,30);
-    print_slices(slices);
+    CHECK(0,10,0,location1);
+    CHECK(1,10,0,location4);
+    CHECK(2,10,0,location3);
+    TEST_SUCCESS();
 }
 
 int case55()
@@ -212,7 +241,9 @@ int case55()
     imap.insert(10,20, location4);
 
     std::vector<slice> slices = imap.get_slices(0,30);
-    print_slices(slices);
+    CHECK(0,10,0,location1);
+    CHECK(1,20,0,location4);
+    TEST_SUCCESS();
 }
 
 int case255()
@@ -224,7 +255,9 @@ int case255()
     imap.insert(5,25, location4);
 
     std::vector<slice> slices = imap.get_slices(0,30);
-    print_slices(slices);
+    CHECK(0,5,0,location1);
+    CHECK(1,25,0,location4);
+    TEST_SUCCESS();
 }
 
 int case253()
@@ -236,7 +269,9 @@ int case253()
     imap.insert(5,35, location4);
 
     std::vector<slice> slices = imap.get_slices(0,40);
-    print_slices(slices);
+    CHECK(0,5,0,location1);
+    CHECK(1,35,0,location4);
+    TEST_SUCCESS();
 }
 
 int read1()
@@ -245,7 +280,10 @@ int read1()
     imap.insert(0, 10, location1);
 
     std::vector<slice> slices = imap.get_slices(0,15);
-    print_slices(slices);
+
+    CHECK_SIZE(1);
+    CHECK(0,10,0,location1);
+    TEST_SUCCESS();
 
 }
 
@@ -256,7 +294,10 @@ int read2()
     imap.insert(0, 10, location2);
 
     std::vector<slice> slices = imap.get_slices(5,10);
-    print_slices(slices);
+    CHECK_SIZE(2);
+    CHECK(0,5,5,location2);
+    CHECK(1,5,10,location1);
+    TEST_SUCCESS();
 }
 
 int read3()
@@ -266,7 +307,9 @@ int read3()
     imap.insert(0, 10, location2);
 
     std::vector<slice> slices = imap.get_slices(15,5);
-    print_slices(slices);
+    CHECK_SIZE(1);
+    CHECK(0,5,15,location1);
+    TEST_SUCCESS();
 }
 
 int read4()
@@ -274,7 +317,8 @@ int read4()
     //should be empty
     imap.clear();
     std::vector<slice> slices = imap.get_slices(15,5);
-    print_slices(slices);
+    CHECK_SIZE(0);
+    TEST_SUCCESS();
 }
 
 int main()
@@ -292,5 +336,18 @@ int main()
     case1();
     case11();
     case111();
+    case1111();
+    case11111();
+    case111111();
+    case2();
+    case235();
+    case5();
+    case55();
+    case255();
+    case253();
+    read1();
+    read2();
+    read3();
+    read4();
 }
 
