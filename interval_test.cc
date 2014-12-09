@@ -331,16 +331,6 @@ int read5()
     TEST_SUCCESS();
 }
 
-int read6()
-{
-    //should be empty
-    imap.clear();
-    std::vector<slice> slices = imap.get_slices(15,5);
-    CHECK_SIZE(0);
-    TEST_SUCCESS();
-}
-
-
 int main()
 {
     location1.sid = 1100;
