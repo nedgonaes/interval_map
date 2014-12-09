@@ -281,3 +281,8 @@ interval_map :: get_slices (
   return slice_vector;
 }
 
+void
+interval_map :: clear()
+{
+    slice_map.clear();
+}
