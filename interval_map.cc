@@ -128,7 +128,7 @@ interval_map :: insert_left(
 
   slice_map.erase(block_start_address);
 
-  slice new_slice();
+  slice new_slice;
   new_slice.location = location;
   new_slice.offset = new_offset;
   new_slice.length = new_length;
@@ -167,6 +167,4 @@ interval_map :: get_slices (
 {
 
 }
-
-};
 
