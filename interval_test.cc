@@ -136,6 +136,39 @@ int case5()
     print_slices(slices);
 }
 
+int case55()
+{
+    imap.insert(0, 10, location1);
+    imap.insert(10,10, location2);
+    imap.insert(20,10, location3);
+    imap.insert(10,20, location4);
+
+    std::vector<slice> slices = imap.get_slices(0,30);
+    print_slices(slices);
+}
+
+int case255()
+{
+    imap.insert(0, 10, location1);
+    imap.insert(10,10, location2);
+    imap.insert(20,10, location3);
+    imap.insert(5,25, location4);
+
+    std::vector<slice> slices = imap.get_slices(0,30);
+    print_slices(slices);
+}
+
+int case253()
+{
+    imap.insert(0, 10, location1);
+    imap.insert(10,10, location2);
+    imap.insert(20,10, location3);
+    imap.insert(5,35, location4);
+
+    std::vector<slice> slices = imap.get_slices(0,40);
+    print_slices(slices);
+}
+
 int main()
 {
   location1.sid = 1100;
@@ -148,5 +181,8 @@ int main()
   location4.bid = 1400;
 
   case235();
+  case55();
+  case255();
+  case253();
 }
 
