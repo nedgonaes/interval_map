@@ -37,8 +37,8 @@ int case1()
   location2.bid = 1200;
 
   block_location location3;
-  location2.sid = 1300;
-  location2.bid = 1300;
+  location3.sid = 1300;
+  location3.bid = 1300;
 
   /*
   imap.insert slice 0-10
@@ -74,8 +74,8 @@ int case11()
   location2.bid = 1200;
 
   block_location location3;
-  location2.sid = 1300;
-  location2.bid = 1300;
+  location3.sid = 1300;
+  location3.bid = 1300;
 
   /*
   imap.insert slice 0-10
@@ -111,8 +111,8 @@ int case111()
   location2.bid = 1200;
 
   block_location location3;
-  location2.sid = 1300;
-  location2.bid = 1300;
+  location3.sid = 1300;
+  location3.bid = 1300;
 
   /*
   imap.insert slice 0-10
@@ -148,8 +148,8 @@ int case1111()
   location2.bid = 1200;
 
   block_location location3;
-  location2.sid = 1300;
-  location2.bid = 1300;
+  location3.sid = 1300;
+  location3.bid = 1300;
 
   /*
   imap.insert slice 0-10
