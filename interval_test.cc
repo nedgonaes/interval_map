@@ -136,6 +136,39 @@ int case5()
     print_slices(slices);
 }
 
+int case55()
+{
+    imap.insert(0, 10, location1);
+    imap.insert(10,10, location2);
+    imap.insert(20,10, location3);
+    imap.insert(10,20, location4);
+
+    std::vector<slice> slices = imap.get_slices(0,30);
+    print_slices(slices);
+}
+
+int case255()
+{
+    imap.insert(0, 10, location1);
+    imap.insert(10,10, location2);
+    imap.insert(20,10, location3);
+    imap.insert(5,25, location4);
+
+    std::vector<slice> slices = imap.get_slices(0,30);
+    print_slices(slices);
+}
+
+int case253()
+{
+    imap.insert(0, 10, location1);
+    imap.insert(10,10, location2);
+    imap.insert(20,10, location3);
+    imap.insert(5,35, location4);
+
+    std::vector<slice> slices = imap.get_slices(0,40);
+    print_slices(slices);
+}
+
 int read1()
 {
     imap.insert(0, 10, location1);
@@ -144,6 +177,7 @@ int read1()
     print_slices(slices);
 
 }
+
 int read2()
 {
     imap.insert(0, 20, location1);
@@ -152,6 +186,7 @@ int read2()
     std::vector<slice> slices = imap.get_slices(5,10);
     print_slices(slices);
 }
+
 int read3()
 {
     imap.insert(0, 20, location1);
@@ -160,12 +195,14 @@ int read3()
     std::vector<slice> slices = imap.get_slices(15,5);
     print_slices(slices);
 }
+
 int read4()
 {
     //should be empty
     std::vector<slice> slices = imap.get_slices(15,5);
     print_slices(slices);
 }
+
 int main()
 {
   location1.sid = 1100;
