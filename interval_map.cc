@@ -258,6 +258,7 @@ interval_map :: get_slices (
       slice_vector.push_back(s);
       return slice_vector;
     }
+    //if request starts after block address
     else if( block_address < request_address)
     {
       new_offset = request_address - block_address + block_offset;
