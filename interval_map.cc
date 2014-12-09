@@ -15,15 +15,8 @@ void
 interval_map :: insert(unsigned int insert_address, unsigned int insert_length,
                        block_location insert_location)
 {
-    //case 1: wholely contained within a larger block
-    //case 2: overlaps right of another block
-    //case 3: overlaps left of another block
-    //case 4: new block at end, no overlap
-    //case 5: exactly same size as existing block
-    //case 6: larger than a whole block (combo of 2, 3 and 5)
 
     slice_iter_t it = slice_map.lower_bound(insert_address);
-    unsigned int block_start;
 
     if(slice_map.size() == 0)
     {
@@ -34,8 +27,6 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length,
             empty_slice.length = insert_address;
             slice_map.insert(std::make_pair(0, empty_slice));
         }
-
-        insert_interval(insert_address, insert_length, insert_location);
     }
 
     else if (it == slice_map.end())
@@ -50,21 +41,21 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length,
             slice empty_slice;
             empty_slice.length = insert_address - block_start + length;
             slice_map.insert(std::make_pair(block_start + length, empty_slice));
-            insert_interval(insert_address, insert_length, insert_location);
         }
 
-        //append precisely to end of file, no adjustments needed.
-        else if (block_start + length == insert_address) 
+        //new slice is entirely contained within last block of file
+        else if (block_start + length > insert_address + insert_length) 
         {
-            insert_interval(insert_address, insert_length, insert_location);
+            insert_contained(block_start, length, insert_address, insert_length);
         }
 
-        //need to truncate the slice to left (insert_right)
-        else
+        //new slice overlaps right portion of last block of file.
+        else if (block_start + length != insert_address) 
         {
             insert_right(block_start, insert_address);
-            insert_interval(insert_address, insert_length, insert_location);
         }
+
+        //new slice is exactly at the end of the file, no adjustment
 
     }
 
@@ -77,55 +68,62 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length,
             --it;
 
             unsigned int block_start = it->first;
+            unsigned int length = it->second.length;
 
-            insert_right(block_start, insert_address);
-             
-            ++it;
-
-            while (it != slice_map.end() && 
-                    it->first + it->second.length < insert_address + insert_length)
+            //new slice is entirely contained within an existing block 
+            if (block_start + length > insert_address + insert_length) 
             {
-                //case 5;
-                ++it;
+                insert_contained(block_start, length, insert_address, insert_length);
             }
 
-            if (it == slice_map.end())
-            {
-                insert_interval(insert_address, insert_length, insert_location);
-            }
-            
+            //new slice overlaps right side of a block, and possibly multiple
+            //subsequent blocks, and then possibly left side of another block
             else
             {
-                block_start = it->first;
-                unsigned int length = it->second.length;
-                insert_left(block_start, length, insert_address, insert_length);
-                insert_interval(insert_address, insert_length, insert_location);
-            }
+                insert_right(block_start, insert_address);
 
+                ++it;
+
+                while (it != slice_map.end() && 
+                        it->first + it->second.length < insert_address + insert_length)
+                {
+                    block_start = it->first;
+                    insert_overwrite_interval(block_start);
+                    ++it;
+                }
+
+                if (it != slice_map.end())
+                {
+                    block_start = it->first;
+                    length = it->second.length;
+                    insert_left(block_start, length, insert_address, insert_length);
+                }
+            }
         }
 
+        //insert directly on an existing block boundary (do not need to consider
+        //modifying block to left, or case where slice is fully contained within
+        //an existing block).
         else
         {
             while (it != slice_map.end() && 
                     it->first + it->second.length < insert_address + insert_length)
             {
-                //case 5;
+                unsigned int block_start = it->first;
+                insert_overwrite_interval(block_start);
                 ++it;
             }
 
-            if (it == slice_map.end())
+            if (it != slice_map.end())
             {
-                //case 4
-            }
-            
-            else
-            {
-                //case 3
+                unsigned int block_start = it->first;
+                unsigned int length = it->second.length;
+                insert_left(block_start, length, insert_address, insert_length);
             }
         }
-
     }
 
+    insert_interval(insert_address, insert_length, insert_location);
 
 }
 
@@ -229,7 +227,7 @@ interval_map :: get_slices (
     unsigned int block_address = it->first;
     slice s = it->second;
     unsigned int new_offset = request_address - block_address;
-    s.offest = new_offset;
+    s.offset = new_offset;
     s.length = s.length - new_offset;
     slice_vector.push_back(s);
 
