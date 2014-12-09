@@ -2,18 +2,17 @@
 #include <iostream>
 
 interval_map imap;
+block_location location1;
+block_location location2;
+block_location location3;
+
 
 int case0()
 {
-  block_location location1;
-  location1.sid = 100;
-  location1.bid = 100;
-
   imap.insert(0, 10, location1);
   std::vector<slice> slices = imap.get_slices(0,10);
 
   std::cout << "size : " << slices.size();
-  std::vector<slice>::iterator it;
 
   for (int i = 0; i < slices.size(); ++i)
   {
@@ -22,24 +21,10 @@ int case0()
     std::cout << " / length : " << s.length;
     std::cout << " / offset : " << s.offset << std::endl ;
   }
-
 }
 
 int case1()
 {
-
-  block_location location1;
-  location1.sid = 1100;
-  location1.bid = 1100;
-
-  block_location location2;
-  location2.sid = 1200;
-  location2.bid = 1200;
-
-  block_location location3;
-  location3.sid = 1300;
-  location3.bid = 1300;
-
   /*
   imap.insert slice 0-10
   imap.insert slice 3-7
@@ -52,8 +37,6 @@ int case1()
   std::vector<slice> slices = imap.get_slices(0, 10);
   std::cout << "size : " << slices.size()<<'\n';
 
-  std::vector<slice>::iterator it;
-
   for (int i = 0; i < slices.size(); ++i)
   {
     slice s = slices[i];
@@ -65,18 +48,6 @@ int case1()
 
 int case11()
 {
-  block_location location1;
-  location1.sid = 1100;
-  location1.bid = 1100;
-
-  block_location location2;
-  location2.sid = 1200;
-  location2.bid = 1200;
-
-  block_location location3;
-  location3.sid = 1300;
-  location3.bid = 1300;
-
   /*
   imap.insert slice 0-10
   imap.insert slice 0-6
@@ -89,8 +60,6 @@ int case11()
   std::vector<slice> slices = imap.get_slices(0, 10);
   std::cout << "size : " << slices.size()<<'\n';
 
-  std::vector<slice>::iterator it;
-
   for (int i = 0; i < slices.size(); ++i)
   {
     slice s = slices[i];
@@ -102,18 +71,6 @@ int case11()
 
 int case111()
 {
-  block_location location1;
-  location1.sid = 1100;
-  location1.bid = 1100;
-
-  block_location location2;
-  location2.sid = 1200;
-  location2.bid = 1200;
-
-  block_location location3;
-  location3.sid = 1300;
-  location3.bid = 1300;
-
   /*
   imap.insert slice 0-10
   imap.insert slice 4-10
@@ -126,8 +83,6 @@ int case111()
   std::vector<slice> slices = imap.get_slices(0, 10);
   std::cout << "size : " << slices.size()<<'\n';
 
-  std::vector<slice>::iterator it;
-
   for (int i = 0; i < slices.size(); ++i)
   {
     slice s = slices[i];
@@ -139,18 +94,6 @@ int case111()
 
 int case1111()
 {
-  block_location location1;
-  location1.sid = 1100;
-  location1.bid = 1100;
-
-  block_location location2;
-  location2.sid = 1200;
-  location2.bid = 1200;
-
-  block_location location3;
-  location3.sid = 1300;
-  location3.bid = 1300;
-
   /*
   imap.insert slice 0-10
   imap.insert slice 4-10
@@ -176,6 +119,14 @@ int case1111()
 
 int main()
 {
+  location1.sid = 1100;
+  location1.bid = 1100;
+  location2.sid = 1200;
+  location2.bid = 1200;
+  location3.sid = 1300;
+  location3.bid = 1300;
+
+
     case1111();
 }
 
