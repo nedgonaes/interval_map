@@ -2,6 +2,7 @@
 #define interval_map_h_
 #include <stdint.h>
 #include <map>
+#include <vector>
 
 class block_location
 {
@@ -75,6 +76,9 @@ class interval_map
 
     public:
         void insert(unsigned int insert_address, unsigned int insert_length);
+    public:
+        std::vector<slice> get_slices
+          (unsigned int request_address, unsigned int request_length);
 };
 
 #endif //interval_map_h_
