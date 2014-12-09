@@ -228,7 +228,7 @@ interval_map :: get_slices (
     slice s = it->second;
     unsigned int block_offset = s.offset;
 
-    unsigned int new_offset = request_address - (block_address+ block_offset);
+    unsigned int new_offset = request_address - block_address + block_offset;
     s.offset = new_offset;
     s.length = s.length - new_offset;
     slice_vector.push_back(s);
@@ -246,23 +246,31 @@ interval_map :: get_slices (
     slice s = it->second;
     unsigned int block_length = s.length;
     unsigned int block_offset = s.offset;
+    unsigned int new_offset = 0;
+    unsigned int new_length = 0;
 
     //if request is contained within a block
     if( request_address >= block_address &&
         request_address + request_length <= block_address + block_length)
     {
-      s.offset = request_address - (block_address + block_offset);
+      s.offset = request_address - block_address + block_offset;
       s.length = request_length;
       slice_vector.push_back(s);
       return slice_vector;
     }
-
-    unsigned int new_offset =
-      (block_address < request_address)? request_address - block_address : block_offset;
-    unsigned int new_length =
-      (block_address + block_length <= request_address + request_length)?
-      block_length :
-      (request_address + request_length) - block_address;
+    else if( block_address < request_address)
+    {
+      new_offset = request_address - block_address + block_offset;
+      new_length = block_address + block_length - request_address;
+    }
+    else
+    {
+      new_offset = (block_address < request_address) ?
+        request_address - block_address : block_offset;
+      new_length =
+        (block_address + block_length <= request_address + request_length)?
+        block_length : (request_address + request_length) - block_address;
+    }
 
     s.offset = new_offset;
     s.length = new_length;
