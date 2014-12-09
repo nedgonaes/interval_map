@@ -360,6 +360,5 @@ int main()
     read3();
     read4();
     read5();
-    read6();
 }
 
