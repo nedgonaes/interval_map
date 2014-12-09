@@ -59,7 +59,7 @@ int case0()
     imap.clear();
     imap.insert(0, 10, location1);
     std::vector<slice> slices = imap.get_slices(0,10);
-    
+
     CHECK(0,10,0,location1);
     TEST_SUCCESS();
 }
@@ -321,6 +321,16 @@ int read4()
     TEST_SUCCESS();
 }
 
+int read5()
+{
+    //should be empty
+    imap.clear();
+    imap.insert(0, 10, location1);
+    std::vector<slice> slices = imap.get_slices(15,5);
+    CHECK_SIZE(0);
+    TEST_SUCCESS();
+}
+
 int main()
 {
     location1.sid = 1100;
@@ -331,7 +341,7 @@ int main()
     location3.bid = 1300;
     location4.sid = 1400;
     location4.bid = 1400;
-
+/*
     case0();
     case1();
     case11();
@@ -349,5 +359,7 @@ int main()
     read2();
     read3();
     read4();
+  */
+    read5();
 }
 
