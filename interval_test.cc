@@ -7,6 +7,19 @@ block_location location2;
 block_location location3;
 
 
+  block_location location1;
+  location1.sid = 1100;
+  location1.bid = 1100;
+
+  block_location location2;
+  location2.sid = 1200;
+  location2.bid = 1200;
+
+  block_location location3;
+  location3.sid = 1300;
+  location3.bid = 1300;
+
+
 int case0()
 {
   imap.insert(0, 10, location1);
@@ -117,6 +130,28 @@ int case1111()
   }
 }
 
+int case2()
+{
+
+  /*
+  imap.insert slice 0-10
+  imap.insert slice 3-7
+  imap.insert slice 5-6
+  get slice 0-10 : should get 5 slices
+  */
+  imap.insert(0, 10, location1);
+  imap.insert(3, 4, location2);
+  imap.insert(5, 1, location3);
+  std::vector<slice> slices = imap.get_slices(0, 10);
+  std::cout << "size : " << slices.size()<<'\n';
+
+  std::vector<slice>::iterator it;
+
+  for (int i = 0; i < slices.size(); ++i)
+  {
+    slice s = slices[i];
+    std::cout << "location : " << s.location.sid ;
+}
 int main()
 {
   location1.sid = 1100;
