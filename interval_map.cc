@@ -1,4 +1,5 @@
 #include "interval_map.h"
+#include <iostream>
 
 interval_map :: interval_map()
     : slice_map()
@@ -223,6 +224,7 @@ interval_map :: get_slices (
   }
   if( it == slice_map.end())
   {
+    //last block, implies that it is contained within this block.
     --it;
     unsigned int block_address = it->first;
     slice s = it->second;
@@ -230,7 +232,7 @@ interval_map :: get_slices (
 
     unsigned int new_offset = request_address - block_address + block_offset;
     s.offset = new_offset;
-    s.length = s.length - new_offset;
+    s.length = request_length;
     slice_vector.push_back(s);
 
     return slice_vector;
@@ -256,16 +258,19 @@ interval_map :: get_slices (
       s.offset = request_address - block_address + block_offset;
       s.length = request_length;
       slice_vector.push_back(s);
+      std::cout << "contained within block" << std::endl;
       return slice_vector;
     }
     //if request starts after block address
     else if( block_address < request_address)
     {
+      std::cout << "request after block" << std::endl;
       new_offset = request_address - block_address + block_offset;
       new_length = block_address + block_length - request_address;
     }
     else
     {
+      std::cout << "else case" << std::endl;
       new_offset = (block_address < request_address) ?
         request_address - block_address : block_offset;
       new_length =
