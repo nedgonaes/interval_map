@@ -75,7 +75,9 @@ class interval_map
         slice_map_t slice_map;
 
     public:
-        void insert(unsigned int insert_address, unsigned int insert_length);
+        void insert(unsigned int insert_address, 
+                    unsigned int insert_length,
+                    block_location insert_location);
     public:
         std::vector<slice> get_slices
           (unsigned int request_address, unsigned int request_length);
