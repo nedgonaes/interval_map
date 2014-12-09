@@ -1,11 +1,40 @@
 #ifndef interval_map_h_
 #define interval_map_h_
+#include <stdint.h>
 #include <map>
+
+class block_location
+{
+    public:
+    block_location()
+        : sid(0)
+          , bid(0) {}
+
+    ~block_location() {};
+
+    public:
+    uint64_t sid;
+    uint64_t bid;
+};
+
+class slice
+{
+    public:
+    slice()
+        : location()
+          , offset() {}
+
+    ~slice() {};
+
+    public:
+    block_location location;
+    unsigned int offset;
+};
+
+
 
 class interval_map
 {
-    class slice;
-
     public:
         interval_map();
         ~interval_map(); 
@@ -20,4 +49,5 @@ class interval_map
     private:
         slice_map_t map;
 };
+
 #endif //interval_map_h_
