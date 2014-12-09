@@ -26,8 +26,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
 
     if(slice_map.size() == 0)
     {
-        /* If inserting into empty map at > 0 offset, fill the hole with
-           empty block */
+        //inserting into empty map at > 0 offset, fill the hole
         if (insert_address > 0)
         {
             slice empty_slice;
@@ -41,22 +40,25 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
     else if (it == slice_map.end())
     {
         --it;
-        unsigned int offset = it->first;
+        unsigned int block_start = it->first;
         unsigned int length = it->second.length;
 
-        if (offset + length < insert_address)
+        //there's a gap, need to fill
+        if (block_start + length < insert_address)
         {
             slice empty_slice;
-            empty_slice.length = insert_address - offset + length;
-            slice_map.insert(std::make_pair(offset + length, empty_slice));
+            empty_slice.length = insert_address - block_start + length;
+            slice_map.insert(std::make_pair(block_start + length, empty_slice));
             //case 4
         }
 
-        else if (offset + length == insert_address) 
+        //append precisely to end of file, no adjustments needed.
+        else if (block_start + length == insert_address) 
         {
             //case 4
         }
 
+        //need to truncate the slice to left
         else
         {
             //case 2
@@ -68,11 +70,33 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
     {
         if (it->first != insert_address)
         {
+            //definitely safe because if it == slice_map.begin().
+            //then it->first == insert_address
             --it;
+
+            unsigned int offset = it->first;
+            unsigned int length = it->second.length;
+
+            //case 2
+            //case 5??
+            //case 3
+
         }
 
-        unsigned int offset = it->first;
-        unsigned int length = it->second.length;
+        else
+        {
+            while (it != slice_map.end() && 
+                    it->first + it->second.length < insert_addres + insert_length)
+            {
+                //case 5;
+                ++it;
+            }
+
+
+            //case 5??
+            //case 3/4??
+        }
+
     }
 
 
