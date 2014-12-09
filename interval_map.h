@@ -49,7 +49,7 @@ class interval_map
         interval_map& operator = (const interval_map&);
 
     private:
-        slice_map_t map;
+        slice_map_t slice_map;
 
     public:
         void insert(slice_map_t slice_map,
