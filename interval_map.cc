@@ -228,6 +228,11 @@ interval_map :: get_slices (
     unsigned int block_address = it->first;
     slice s = it->second;
     unsigned int block_offset = s.offset;
+    unsigned int block_length = s.length;
+
+    //out of range, return empty vector
+    if(block_address + block_length < request_address)
+      return slice_vector;
 
     unsigned int new_offset = request_address - block_address + block_offset;
     s.offset = new_offset;
