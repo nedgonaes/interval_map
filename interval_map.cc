@@ -12,9 +12,6 @@ interval_map :: ~interval_map()
 
 }
 
-
-
-
 void 
 interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
 {

@@ -52,8 +52,7 @@ class interval_map
         slice_map_t slice_map;
 
     public:
-        void insert(slice_map_t slice_map,
-            unsigned int insert_address, unsigned int insert_length);
+        void insert(unsigned int insert_address, unsigned int insert_length);
 };
 
 #endif //interval_map_h_
