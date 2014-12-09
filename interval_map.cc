@@ -88,8 +88,8 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length,
                         it->first + it->second.length < insert_address + insert_length)
                 {
                     block_start = it->first;
-                    insert_overwrite_interval(block_start);
                     ++it;
+                    insert_overwrite_interval(block_start);
                 }
 
                 if (it != slice_map.end())
