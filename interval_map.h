@@ -22,7 +22,8 @@ class slice
     public:
     slice()
         : location()
-          , offset() {}
+        , offset()
+        , length() {}
 
     ~slice() {};
 

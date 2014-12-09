@@ -15,13 +15,55 @@ interval_map :: ~interval_map()
 void 
 interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
 {
-        
     //case 1: wholely contained within a larger block
     //case 2: overlaps right of another block
     //case 3: overlaps left of another block
     //case 4: new block at end, no overlap
     //case 5: exactly same size as existing block
     //case 6: larger than a whole block (combo of 2, 3 and 5)
+
+    slice_iter_t it = slice_map.lower_bound(insert_address);
+    unsigned int block_start;
+    
+    if(slice_map.size() == 0)
+    {
+        /* If inserting into empty map at > 0 offset, fill the hole with
+           empty block */
+        if (insert_address > 0)
+        {
+            slice empty_slice();
+            empty_slice.length = insert_address;
+            slice_map.insert(std::make_pair(0, empty_slice));
+        }
+        
+        //case 4
+    }
+
+    else if (it == slice_map.end())
+    {
+        --it;
+        unsigned int offset = it->first;
+        unsigned int length = it->second.length;
+
+        if (offset + length < insert_address)
+        {
+            slice empty_slice();
+            empty_slice.length = insert_address - offset + length;
+            slice_map.insert(std::make_pair(offset + length, empty_slice));
+            //case 4
+        }
+
+        else if()
+        {
+        }
+            
+    }
+
+    else if (it->first != insert_address)
+    {
+        --it;
+    }
+
 }
 
 void 
