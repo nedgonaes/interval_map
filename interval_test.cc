@@ -5,6 +5,7 @@ interval_map imap;
 block_location location1;
 block_location location2;
 block_location location3;
+block_location location4;
 
 int case0()
 {
@@ -140,6 +141,26 @@ int case2()
   }
 }
 
+int case5()
+{
+    imap.insert(0, 10, location1);
+    imap.insert(10,20, location2);
+    imap.insert(20,30, location3);
+    //imap.insert(10,20, location4);
+
+    std::vector<slice> slices = imap.get_slices(0,30);
+
+    std::cout << "size : " << slices.size() << std::endl;
+
+    for (int i = 0; i < slices.size(); ++i)
+    {
+        slice s = slices[i];
+        std::cout << " location : " << s.location.sid ;
+        std::cout << " / length : " << s.length;
+        std::cout << " / offset : " << s.offset << std::endl ;
+    }
+}
+
 int main()
 {
   location1.sid = 1100;
@@ -148,7 +169,9 @@ int main()
   location2.bid = 1200;
   location3.sid = 1300;
   location3.bid = 1300;
-
-  case2();
+  location4.sid = 1400;
+  location4.bid = 1400;
+  
+  case5();
 }
 
