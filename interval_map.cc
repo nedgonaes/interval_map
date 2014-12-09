@@ -58,7 +58,7 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
             //case 4
         }
 
-        //need to truncate the slice to left
+        //need to truncate the slice to left (insert_right)
         else
         {
             //case 2
@@ -78,8 +78,25 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
             unsigned int length = it->second.length;
 
             //case 2
-            //case 5??
-            //case 3
+            
+            ++it;
+
+            while (it != slice_map.end() && 
+                    it->first + it->second.length < insert_addres + insert_length)
+            {
+                //case 5;
+                ++it;
+            }
+
+            if (it == slice_map.end())
+            {
+                //case 4
+            }
+            
+            else
+            {
+                //case 3
+            }
 
         }
 
@@ -92,9 +109,15 @@ interval_map :: insert(unsigned int insert_address, unsigned int insert_length)
                 ++it;
             }
 
-
-            //case 5??
-            //case 3/4??
+            if (it == slice_map.end())
+            {
+                //case 4
+            }
+            
+            else
+            {
+                //case 3
+            }
         }
 
     }
@@ -189,6 +212,44 @@ std::vector<slice>
 interval_map :: get_slices (
     unsigned int request_address, unsigned int request_length)
 {
+  std::vector<slice> slice_vector;
+  slice_iter_t it = slice_map.lower_bound(request_address);
+  if(slice_map.size() == 0 || it == slice_map.end())
+  {
+    //out of range, return empty vector
+    return slice_vector;
+  }
+  --it;
+  while(it->first < request_address + request_length || it != slice_map.end())
+  {
 
+    unsigned int block_address = it->first;
+    slice s = it->second;
+    unsigned int block_length = s.length;
+
+    //if request is contained within a block
+    if( request_address > block_address &&
+        request_address + request_length < block_address + block_length)
+    {
+      s.offset = request_address - block_address;
+      s.length = request_length;
+      slice_vector.push_back(s);
+      return slice_vector;
+    }
+
+    unsigned int new_offset =
+      (block_address < request_address)? request_address - block_address : 0;
+    unsigned int new_length =
+      (block_address + block_length < request_address + request_length)?
+      block_length :
+      (request_address + request_length) - (block_address + block_length);
+
+    s.offset = new_offset;
+    s.length = new_length;
+    slice_vector.push_back(s);
+
+    it++;
+  }
+  return slice_vector;
 }
 
