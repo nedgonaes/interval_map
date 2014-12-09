@@ -214,10 +214,10 @@ int main()
   location4.sid = 1400;
   location4.bid = 1400;
 
-  case235();
+//  case235();
   case55();
-  case255();
-  case253();
-  read1();
+//  case255();
+//  case253();
+//  read1();
 }
 
